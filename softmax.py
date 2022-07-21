@@ -5,7 +5,7 @@ import numpy as np
 
 class Softmax:
     def __init__(self, n_class: int, lr: float, epochs: int, reg_const: float):
-        self.w = None  # TODO: change this
+        self.w = None 
         self.lr = lr
         self.epochs = epochs
         self.reg_const = reg_const
