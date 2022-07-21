@@ -12,6 +12,7 @@ class SVM:
         self.n_class = n_class
 
     def calc_gradient(self, X_train: np.ndarray, y_train: np.ndarray) -> np.ndarray:
+        
         num_train, dimension = X_train.shape
         grads = self.w * self.reg_const #(D,C)
         batch_score = X_train.dot(self.w)#(N,C)
@@ -25,6 +26,21 @@ class SVM:
         for i in range(num_train):
             grads[:,y_train[i]] -= true_grad[i] #check (D,C) and (N,D)
             grads += X_train[i].reshape(-1,1) * grad_score[i]
+            
+        #-------------------------------------or-------------------------------------
+        #Source - https://ljvmiranda921.github.io/notebook/2017/02/11/multiclass-svm/
+        num_train, dimension = X_train.shape
+        grads = self.w * self.reg_const #(D,C)
+        batch_score = X_train.dot(self.w)#(N,C)
+        true_score = batch_score[np.arange(num_train), y_train]#(N,)
+        grad_score = np.maximum(0, batch_score - true_score[:,np.newaxis] + 1)
+        grad_score[np.arange(num_train), y_train] = 0
+        X_mask = np.zeros(grad_score.shape)
+        X_mask[grad_score>0] = 1
+        true_grad = X_mask.sum(axis=1).reshape(-1,1)*X_train
+        for i in range(num_train):
+            grads[:,y_train[i]] -= true_grad[i] #check (D,C) and (N,D)
+            grads += X_train[i].reshape(-1,1) * X_mask[i]
         
         return grads
 
