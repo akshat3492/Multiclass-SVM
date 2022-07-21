@@ -1,2 +1,2 @@
-# Multiclass-Softmax
-Implemented Multi-class Softmax from Scratch using mini batch stochastic gradient descent.
+# Multiclass-SVM
+Implemented Multi-class SVM from Scratch using mini batch stochastic gradient descent.
